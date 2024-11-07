@@ -2,8 +2,6 @@
 
 **Lucia Zhang**
 
-*Disclaimer:* This is my first project on statistical analysis of a real data. Many parts of the analysis are conducted by consulting with ChatGPT.
-
 ## Data Introduction
 
 ``` r
@@ -53,8 +51,6 @@ myse(ccfree50$Time[(ccfree50$Season>0)&(ccfree50$Gender=="Female")&(ccfree50$CDi
 
 summary(ccfree50$Time[(ccfree50$Season>0)&(ccfree50$Gender=="Male")&(ccfree50$CDivision==3)])
 myse(ccfree50$Time[(ccfree50$Season>0)&(ccfree50$Gender=="Male")&(ccfree50$CDivision==3)])
-
-
 
 # Plot all trajectories of all swimmers
 require(ggplot2)
@@ -168,7 +164,6 @@ wtrends <- rbind(data.frame(d1fm,group=rep("D1F",9)),
                  data.frame(d2mm,group=rep("D2M",9)),
                  data.frame(d3mm,group=rep("D3M",9)))
 
-# Follow ChatGPT
 library(ggplot2)
 ggplot(wtrends, aes(x=Season,y=Time,group=group,color=group))+
   geom_line() +
@@ -521,20 +516,14 @@ col5m23.kruskal <- kruskal.test(Time~CDivision,data=col5m[col5m$CDivision!=1,])
 col5m23.kruskal  # 1
 ```
 
-**Conclusion:**
 
--   
-
--   
-
--   
 
 ## Comparison Between Grades: A Longitudinal Study
 
 ``` r
 # Study time change in each year:
 
-# Follow ChatGPT to calculate the time change in each year for each swimmers
+# To calculate the time change in each year for each swimmers
 
 library(dplyr)
 library(tidyr)
@@ -562,7 +551,6 @@ d1f <- ccfree50l[(ccfree50l$CDivision==1)&(ccfree50l$Gender=="Female"),]
 boxplot(d1f$DTime~d1f$Season,xlab="Grade (0=HS Senior)",ylab="Time Difference")
 
 # Get median values of each grade (HS & college)
-# ChatGPT suggests to use dplyr
 library(dplyr)
 d1fm <- d1f %>%
   group_by(Season) %>%
@@ -623,7 +611,6 @@ dtrends <- rbind(data.frame(d1fm,group=rep("D1F",8)),
                  data.frame(d2mm,group=rep("D2M",8)),
                  data.frame(d3mm,group=rep("D3M",8)))
 
-# Follow ChatGPT
 library(ggplot2)
 ggplot(dtrends, aes(x=Season,y=DTime,group=group,color=group))+
   geom_line() +
@@ -1042,17 +1029,6 @@ ccfree50 <- ccfree50[!(ccfree50$Name%in%conflict.list),]
 write.csv(ccfree50,"ccfree50.csv")
 ```
 
-**Conclusion:**
-
--   
-
--   
-
--   
-
--   
-
--   
 
 ## Improving Rates
 
@@ -1078,8 +1054,6 @@ sum((swimmer.list$Gender=="Female")&(swimmer.list$Division==3))
 sum(swimmer.list$Gender=="Male")
 sum(swimmer.list$Gender=="Female")
 
-# For Slide 12:
-#
 # Swimmers with at least two years HS records & at least two years college records:
 # College         Female       Male       Total
 # Division I      61           56         117
@@ -1089,7 +1063,7 @@ sum(swimmer.list$Gender=="Female")
 
 
 #============================================================
-# Longitudinal Plot: Slide 13 
+# Longitudinal Plot:
 ccfree50$GD <- paste(ccfree50$Gender, ccfree50$CDivision)
 ggplot(ccfree50, aes(x=Season,y=Time,group=Name,color=GD))+
   geom_line() +
@@ -1098,7 +1072,7 @@ ggplot(ccfree50, aes(x=Season,y=Time,group=Name,color=GD))+
 
 
 #===============================================================
-# Follow ChatGPT to get regression intercepts and slopes of
+# To get regression intercepts and slopes of
 # each swimmer for high school and college separately
 
 # Unique list of swimmers
@@ -1154,9 +1128,6 @@ resfree50$col.time0 <- resfree50$col.intercept+resfree50$col.slope
 # Save the data
 write.csv(resfree50,"resfree50.csv")
 
-
-
-
 #==================================================
 # Correlation between hs.time0 and hs.slope: Slide 15
 
@@ -1166,9 +1137,7 @@ ggplot(resfree50, aes(x=hs.time0,y=hs.slope,group=GD,color=GD))+
   labs(x = "Freshman Time", y="Improving Rate") +
   theme_minimal()
 
-
 # Regression and test: High School Records
-
 
 # All females & males
 all.lm <- lm(resfree50$hs.slope~resfree50$hs.time0)
@@ -1194,18 +1163,15 @@ d3f <- resfree50[(resfree50$Gender=="Female")&(resfree50$CDivision==3),]
 d3f.lm <- lm(d3f$hs.slope~d3f$hs.time0)
 summary(d3f.lm) # -0.32750    0.04203  -7.792 8.59e-09
 
-
 # All males
 allm <- resfree50[(resfree50$Gender=="Male"),]
 allm.lm <- lm(allm$hs.slope~allm$hs.time0)
 summary(allm.lm) #-0.30749    0.02786  -11.04   <2e-16
 
-
 # Division I Male
 d1m <- resfree50[(resfree50$Gender=="Male")&(resfree50$CDivision==1),]
 d1m.lm <- lm(d1m$hs.slope~d1m$hs.time0)
 summary(d1m.lm) #-0.35171    0.03018  -11.65 2.31e-16
-
 
 # Division II Male
 d2m <- resfree50[(resfree50$Gender=="Male")&(resfree50$CDivision==2),]
